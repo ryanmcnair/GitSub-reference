@@ -3,6 +3,8 @@ const renderToDom = (divId, htmlToRender) => {
     selectedContainer.innerHTML = htmlToRender;
   };
 
+//Static components
+
 const renderNav = () => {
     const navBar = `
     <ul class="nav justify-content-center">
@@ -67,6 +69,8 @@ renderFooter = () => {
     renderToDom("#footer", footer)
 }
 
+//Overview and Repositories
+
 const repositories = [
     {
         id: 1,
@@ -81,17 +85,35 @@ const repositories = [
         id: 2,
         name: "Second project",
         description: "Describing the second project",
-        isPinned: true,
+        isPinned: false,
         language: "TypeScript",
         stars: 99,
         forks: 44
+    },
+    {
+        id: 3,
+        name: "Third project",
+        description: "Describing the stuff for the project",
+        isPinned: true,
+        language: "C#",
+        stars: 2,
+        forks: 55
+    },
+    {
+        id: 2,
+        name: "Fourth project",
+        description: "Describing the fourth project",
+        isPinned: false,
+        language: "Python",
+        stars: 65,
+        forks: 3
     },
 ]
 
 const renderOverview = () => {
     const overview = `
     <div id="overview">
-        <h1>Overview</h1>
+        <h1>Pinned</h1>
         <div id="overviewCard"></div>
     </div>
     <div id="overviewForm"></div>
@@ -108,8 +130,9 @@ const renderOverviewCard = (array) => {
                 <h5 class="card-title">${repo.name}  📌</h5>
                 <p class="card-text">${repo.description}</p>
                 <div id="starsForks">
-                    <div class="card-link">⭐️ ${repo.stars}</div>
-                    <div class="card-link">⑂ ${repo.forks}</div>
+                    <div>${repo.language === 'Python' ? '🔵' : (repo.language === 'JavaScript' ? '🟡' : (repo.language === 'TypeScript' ? '🟠' : '🔴' ))} ${repo.language}</div>
+                    <div>⭐️ ${repo.stars}</div>
+                    <div>⑂ ${repo.forks}</div>
                 </div>
             </div>
         </div>
@@ -185,10 +208,36 @@ const addOverviewListener = () => {
 
 const renderRepositories = () => {
     const repositories = `
-    <h1>Repositories</h1>
+    <div id="repositories">
+        <h1>Repositories</h1>
+        <div id="repositoriesCard"></div>
+    </div>
+    <div id="repositoriesForm"></div>
     `
     renderToDom('#repositories', repositories)
 }
+
+const renderRepositoriesCard = (array) => {
+    let domString = "";
+    for (repo of array) {
+        domString += `
+        <div class="card" style="width: 26rem;">
+            <div class="card-body">
+                <h5 class="card-title">${repo.name}  ${repo.isPinned ? '📌' : ''}</h5>
+                <p class="card-text">${repo.description}</p>
+                <div id="starsForks">
+                    <div>${repo.language === 'Python' ? '🔵' : (repo.language === 'JavaScript' ? '🟡' : (repo.language === 'TypeScript' ? '🟠' : '🔴' ))} ${repo.language}</div>
+                    <div class="card-link">⭐️ ${repo.stars}</div>
+                    <div class="card-link">⑂ ${repo.forks}</div>
+                </div>
+            </div>
+        </div>
+        `
+    }
+    renderToDom('#repositoriesCard', domString)
+}
+
+//Packages
 
 const renderPackages = () => {
     const packages = `
@@ -196,6 +245,8 @@ const renderPackages = () => {
     `
     renderToDom('#packages', packages)
 }
+
+//Projects
 
 const renderProjects = () => {
     const projects = `
@@ -219,6 +270,7 @@ const findDiv = () => {
     if (document.body.contains(repositoriesEl))
         {
             renderRepositories();
+            renderRepositoriesCard(repositories);
         }
     if (document.body.contains(packagesEl))
         {
