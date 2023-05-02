@@ -97,19 +97,19 @@ const findDiv = () => {
     var repositoriesEl =  document.getElementById('repositories');
     var packagesEl =  document.getElementById('packages');
     var projectsEl =  document.getElementById('projects');
-    if (typeof(overviewEl) != 'undefined' && overviewEl != null)
+    if (document.body.contains(overviewEl))
         {
             renderOverview();
         }
-    if (typeof(repositoriesEl) != 'undefined' && repositoriesEl != null)
+    if (document.body.contains(repositoriesEl))
         {
             renderRepositories();
         }
-    if (typeof(packagesEl) != 'undefined' && packagesEl != null)
+    if (document.body.contains(packagesEl))
         {
             renderPackages();
         }
-    if (typeof(projectsEl) != 'undefined' && projectsEl != null)
+    if (document.body.contains(projectsEl))
         {
             renderProjects();
         }
