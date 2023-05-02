@@ -67,24 +67,136 @@ renderFooter = () => {
     renderToDom("#footer", footer)
 }
 
+const repositories = [
+    {
+        id: 1,
+        name: "First project",
+        description: "Describing the project",
+        isPinned: true,
+        language: "JavaScript",
+        stars: 88,
+        forks: 12
+    },
+    {
+        id: 2,
+        name: "Second project",
+        description: "Describing the second project",
+        isPinned: true,
+        language: "TypeScript",
+        stars: 99,
+        forks: 44
+    },
+]
+
 const renderOverview = () => {
     const overview = `
-    <h1>Overview</h1>
+    <div id="overview">
+        <h1>Overview</h1>
+        <div id="overviewCard"></div>
+    </div>
+    <div id="overviewForm"></div>
     `
     renderToDom('#overview', overview)
 }
+
+const renderOverviewCard = (array) => {
+    let domString = "";
+    for (repo of array) {
+        domString += `${repo.isPinned ? `
+        <div class="card" style="width: 26rem;">
+            <div class="card-body">
+                <h5 class="card-title">${repo.name}  📌</h5>
+                <p class="card-text">${repo.description}</p>
+                <div id="starsForks">
+                    <div class="card-link">⭐️ ${repo.stars}</div>
+                    <div class="card-link">⑂ ${repo.forks}</div>
+                </div>
+            </div>
+        </div>
+        ` : ''}`
+    }
+    renderToDom('#overviewCard', domString)
+}
+
+const renderOverviewForm = () => {
+    const overviewForm = `
+    <div id="overviewForm">
+        <h2>Create a new project</h2>
+        <p>Coordinate, track and update your work in one place</p>
+        <form>
+            <div class="mb-3">
+                <label for="overviewName" class="form-label">Project board name</label>
+                <input type="text" class="form-control" id="overviewName">
+            </div>
+            <div class="mb-3">
+                <label for="overviewDescription" class="form-label">Description (optional)</label>
+                <textarea class="form-control" id="overviewDescription" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Create project</button>
+        </form>
+    </div>
+    `
+    renderToDom('#overviewForm', overviewForm)
+}
+
+const addOverviewListener = () => {
+    const form = document.querySelector("form");
+
+    const addOverview = (e) => {
+        e.preventDefault();
+    
+        const randNumForLanguages = Math.floor(Math.random() * (4 - 1 + 1)) + 1;
+    
+        const randNumStar = Math.floor(Math.random() * (500 - 1 + 1)) + 1;
+        const randNumFork = Math.floor(Math.random() * (500 - 1 + 1)) + 1;
+    
+        let randLanguage = "";
+    
+        switch (randNumForLanguages) {
+            case 1:
+                randLanguage = "JavaScript";
+                break;
+            case 2:
+                randLanguage = "TypeScript";
+                break;
+            case 3:
+                randLanguage = "Python";
+                break;
+            case 4:
+                randLanguage = "C#";
+                break;
+        }
+    
+        const newRepoObj = {
+            id: repositories.length + 1,
+            name: document.querySelector('#overviewName').value,
+            description: document.querySelector('#overviewDescription').value,
+            isPinned: true,
+            language: randLanguage,
+            stars: randNumStar,
+            forks: randNumFork
+        }
+        repositories.push(newRepoObj);
+        renderOverviewCard(repositories);
+        form.reset();
+    }
+    form.addEventListener('submit', addOverview);
+}
+
 const renderRepositories = () => {
     const repositories = `
     <h1>Repositories</h1>
     `
     renderToDom('#repositories', repositories)
 }
+
 const renderPackages = () => {
     const packages = `
     <h1>Packages</h1>
     `
     renderToDom('#packages', packages)
 }
+
 const renderProjects = () => {
     const projects = `
     <h1>Projects</h1>
@@ -100,6 +212,9 @@ const findDiv = () => {
     if (document.body.contains(overviewEl))
         {
             renderOverview();
+            renderOverviewCard(repositories);
+            renderOverviewForm();
+            addOverviewListener();
         }
     if (document.body.contains(repositoriesEl))
         {
