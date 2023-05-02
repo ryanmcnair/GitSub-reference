@@ -1,3 +1,58 @@
 body {
-    background-color: black;
+  background-color: black;
+}
+
+#navbar {
+  color: white;
+}
+
+#mainContainer {
+    width: 100%;
+  
+    display: grid;
+    grid:
+      "sidebar body" 1fr
+      / auto 1fr;
+    gap: 8px;
+}
+
+#sidebar {
+    grid-area: sidebar;
+}
+
+#content {
+    grid-area: body;
+    color: white;
+}
+
+#footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  color: white;
+  text-align: center;
+  color: white;
+}
+
+#footerList {
+    list-style-type: none;
+}
+
+#profileCard {
+  background-color: black;
+  color: whitesmoke;
+}
+
+.circular--portrait {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.circular--portrait img {
+  width: 100%;
+  height: auto;
 }
